@@ -1,4 +1,8 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "X:/EC551/EC551_Final_Project/FInal_Project/FInal_Project.srcs/sources_1/new/Clock_Divider.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Clock_Divider
 INFO: [VRFC 10-2263] Analyzing Verilog file "X:/EC551/EC551_Final_Project/FInal_Project/FInal_Project.srcs/sources_1/new/Duty_Cycler.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module Duty_Cycler
-INFO: [VRFC 10-2263] Analyzing Verilog file "X:/EC551/EC551_Final_Project/FInal_Project/FInal_Project.srcs/sim_1/new/Duty_Cycler_tb.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module Duty_Cycler_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "X:/EC551/EC551_Final_Project/FInal_Project/FInal_Project.srcs/sources_1/new/Sine_Gen.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Sine_Gen
+INFO: [VRFC 10-2263] Analyzing Verilog file "X:/EC551/EC551_Final_Project/FInal_Project/FInal_Project.srcs/sim_1/new/Sine_Gen_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Sine_Gen_tb

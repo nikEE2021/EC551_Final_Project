@@ -21,12 +21,12 @@
 
 
 module Duty_Cycler
-    #(parameter ZOOM = 4, COUNT = 15)
+    #(parameter ZOOM = 4, COUNT = 16)
     (
-    input [ZOOM-1:0] DC,
+    input [ZOOM-1:0] dc,
     input clk,
     input reset,
-    output reg out
+    output reg sig_out
     );
     
     reg [ZOOM-1:0] count;
@@ -34,14 +34,14 @@ module Duty_Cycler
     always @ (posedge clk) begin
         if (reset) begin
             count <= 0;
-            out <= 1;
+            sig_out <= 1;
         end else begin
-            if (count == COUNT) begin
+            if (count == (COUNT-1)) begin
                 count <= 0;
-                out <= 1;
+                sig_out <= 1;
             end else begin
-                if (count == DC)
-                    out <= 0;
+                if (count == dc)
+                    sig_out <= 0;
                 count <= count + 1;
             end
         end

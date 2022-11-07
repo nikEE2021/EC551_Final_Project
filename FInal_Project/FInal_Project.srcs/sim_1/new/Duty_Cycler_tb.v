@@ -22,23 +22,23 @@
 
 module Duty_Cycler_tb;
     
-    reg [3:0] DC;
+    reg [3:0] dc;
     reg clk, reset;
-    wire out;
+    wire sig_out;
     
     Duty_Cycler DuCy (
-        .DC (DC),
+        .dc (dc),
         .clk (clk),
         .reset (reset),
-        .out (out)
+        .sig_out (sig_out)
     );
     
     initial begin
         clk = 0;
         reset = 1;
-        DC = 8;
+        dc = 7;
         #10 reset = 0;
-        #160 DC = 11;
+        #160 dc = 11;
     end
     
     always begin
