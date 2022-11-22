@@ -41,9 +41,9 @@ module Synthesizer(
         note = 3'b0;
         addsub = 1;
         inCount = 0;
-        //inCount <= 20'b101110101010000101; //C4
     end
-    
+//////////////////////// KeyboardInput Loop ////////////////////////
+
 //    always @(posedge clk) begin
 //        if(KeyboardOut[15:8] != 8'hF0) begin
 //            case(KeyboardOut[7:0])
@@ -60,10 +60,11 @@ module Synthesizer(
 //        end
 //        else begin
 //            inCount <= 20'b0;
-//        end
-        
+//        end       
 //    end
-    
+
+/////////////////////// Loop Through Notes In Order ////////////////////////
+
 //    LongClkDivider LCD(.clkin(clk),.rst(0),.clkout(longClk));
     
 //    always @(posedge longClk)begin
@@ -92,8 +93,8 @@ module Synthesizer(
 //        end
 //    end
     
-    //ANoteClkDivider ANCD1(.clk(clk),.inCount(inCount),.speaker(speaker));
-    ANoteClkDivider ANCD1(.clk(clk),.inCount((playSound)?20'b101110101010000101:0),.speaker(speaker));
+    //ANoteClkDivider ANCD1(.clk(clk),.inCount(inCount),.speaker(speaker)); //Uncomment me for Keyboard Loop
+    ANoteClkDivider ANCD1(.clk(clk),.inCount((playSound)?20'b101110101010000101:0),.speaker(speaker)); //Uncomment me for Note Duration
     
-    NoteDurationClkDivider NDCD(.clk(clk),.duration(2'b0),.playSound(playSound));
+    NoteDurationClkDivider NDCD(.clk(clk),.duration(2'b0),.playSound(playSound)); //Controls Note BPM and Duration
 endmodule
