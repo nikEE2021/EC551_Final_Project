@@ -15,19 +15,19 @@ module vga(
 	input rst
 	);
 
-	reg [7:0] init;
-	reg [5:0] init_char;
-	reg [7:0] init_h;
-	reg [7:0] init_v;
-	wire init_en;
-	localparam init_steps = 15;
+	 reg [7:0] init;
+	 reg [5:0] init_char;
+	 reg [7:0] init_h;
+	 reg [7:0] init_v;
+	 wire init_en;
+	 localparam init_steps = 4;
 
     reg  [7:0]  note;
-	reg  [4:0] register_disp_counter;
-	reg  [3:0] register_hex;
-	reg  [5:0] register_char;
-	wire [5:0] register_h;
-	wire [5:0] register_v;
+	reg  disp_counter;
+	reg  [3:0] display_hex;
+	reg  [5:0] display_char;
+	wire [5:0] display_h;
+	wire [5:0] display_v;
 
 	wire [7:0] term_h;
 	wire [7:0] term_v;
@@ -48,14 +48,14 @@ module vga(
 		.rst(rst)
 	);
 
-	assign init_en = (init != init_steps);
+	 assign init_en = (init != init_steps);
 
-	assign term_h    = init_en ? init_h    : register_h;
-	assign term_v    = init_en ? init_v    : register_v;
-	assign term_char = init_en ? init_char : register_char;
+	 assign term_h    = init_en ? init_h    : display_h;
+	 assign term_v    = init_en ? init_v    : display_v;
+	 assign term_char = init_en ? init_char : display_char;
 
-	assign register_h = register_disp_counter[1:0] + 3;
-	assign register_v = register_disp_counter[4:2];
+	assign display_h = disp_counter + 35;
+	assign display_v = 25;
 	
 	always @(posedge clk) begin
 	   case(key_stroke[7:0])
@@ -72,96 +72,78 @@ module vga(
    	end
 
 	always @(*) begin
-		case (register_disp_counter)
-			 0: register_hex = note[7:4];
-			 1: register_hex = note[3:0];
-			 2: register_hex = note[ 7: 4];
-			 3: register_hex = note[ 3: 0];
-			 4: register_hex = note[ 7: 4];
-			 5: register_hex = note[ 3: 0];
-			 6: register_hex = note[ 7: 4];
-			 7: register_hex = note[ 3: 0];
-			 8: register_hex = note[7:4];
-			 9: register_hex = note[3:0];
-			10: register_hex = note[ 7: 4];
-			11: register_hex = note[ 3: 0];
-			12: register_hex = note[7:4];
-			13: register_hex = note[3:0];
-			14: register_hex = note[ 7: 4];
-			15: register_hex = note[ 3: 0];
-			16: register_hex = note[7:4];
-			17: register_hex = note[3: 0];
-			18: register_hex = note[ 7: 4];
-			19: register_hex = note[ 3: 0];
-			20: register_hex = note[7:4];
-			21: register_hex = note[3: 0];
-			22: register_hex = note[ 7: 4];
-			23: register_hex = note[ 3: 0];
-			24: register_hex = note[7:4];
-			25: register_hex = note[3: 0];
-			26: register_hex = note[ 7: 4];
-			27: register_hex = note[ 3: 0];
-			default: register_hex = 4'b0000;
+		case (disp_counter)
+			0: display_hex = note[7:4];
+			1: display_hex = note[3:0];
+			default: display_hex = 4'b0000;
 		endcase
 	end
 
 	always @(*) begin
-		case(register_hex)
-			 0: register_char = `CHAR_0;
-			 1: register_char = `CHAR_1;
-			 2: register_char = `CHAR_2;
-			 3: register_char = `CHAR_3;
-			 4: register_char = `CHAR_4;
-			 5: register_char = `CHAR_5;
-			 6: register_char = `CHAR_6;
-			 7: register_char = `CHAR_7;
-			 8: register_char = `CHAR_8;
-			 9: register_char = `CHAR_9;
-			10: register_char = `CHAR_A;
-			11: register_char = `CHAR_B;
-			12: register_char = `CHAR_C;
-			13: register_char = `CHAR_D;
-			14: register_char = `CHAR_E;
-			15: register_char = `CHAR_F;
+		case(display_hex)
+			 0: display_char = `CHAR_0;
+			 1: display_char = `CHAR_1;
+			 2: display_char = `CHAR_2;
+			 3: display_char = `CHAR_3;
+			 4: display_char = `CHAR_4;
+			 5: display_char = `CHAR_5;
+			 6: display_char = `CHAR_6;
+			 7: display_char = `CHAR_7;
+			 8: display_char = `CHAR_8;
+			 9: display_char = `CHAR_G;
+			10: display_char = `CHAR_A;
+			11: display_char = `CHAR_B;
+			12: display_char = `CHAR_C;
+			13: display_char = `CHAR_D;
+			14: display_char = `CHAR_E;
+			15: display_char = `CHAR_F;
 		endcase
 	end
 
-	always @(posedge clk) begin
-		if (rst) begin
-			init <= 0;
-		end else if (init_en) begin
-			init <= init + 1;
-		end
-	end
+	 always @(posedge clk) begin
+	 	if (rst) begin
+	 		init <= 0;
+	 	end else if (init_en) begin
+	 		init <= init + 1;
+	 	end
+	 end
 	
 	always @(posedge clk) begin
 		if (rst) begin
-			register_disp_counter <= 0;
-		end else if (register_disp_counter >= 27) begin
-			register_disp_counter <= 0;
+			disp_counter <= 0;
+		end else if (disp_counter >= 1) begin
+			disp_counter <= 0;
 		end else begin
-			register_disp_counter <= register_disp_counter + 1;
+			disp_counter <= disp_counter + 1;
 		end
 	end
 
-	always @(posedge clk) begin
-		case (init)
-			0: begin
-				term_w_en <= 1;
-				init_h <= 0;
-				init_v <= 0;
-				init_char <= `CHAR_N;
-			end
-			1, 2, 3, 4, 5, 6: init_v <= init_v + 1;
-			7: begin
-				init_h <= 1; 
-				init_v <= 0; 
-				init_char <= `CHAR_0;
-			end
-			8, 9, 10, 11, 12, 13, 14: begin
-				init_v <= init_v + 1;
-				init_char <= init_char + 1;
-			end
-		endcase
-	end
+	 always @(posedge clk) begin
+	 	case (init)
+	 		0: begin
+	 			term_w_en <= 1;
+	 			init_h <= 30;
+	 			init_v <= 25;
+	 			init_char <= `CHAR_N;
+	 		end
+	 		1: begin
+	 			init_h <= 31; 
+	 			init_v <= 25; 
+	 			init_char <= `CHAR_O;
+	 		end
+	 		2: begin
+	 			init_h <= 32; 
+	 			init_v <= 25; 
+	 			init_char <= `CHAR_T;
+	 		end
+	 		3: begin
+	 			init_h <= 33; 
+	 			init_v <= 25; 
+	 			init_char <= `CHAR_E;
+	 		end
+	 		default: begin
+	 		    term_w_en <= 0;
+	 		end
+	 	endcase
+	 end
 endmodule
