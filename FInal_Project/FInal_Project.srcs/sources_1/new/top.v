@@ -27,14 +27,16 @@ module top(
     input CLK100MHZ,
     input PS2_CLK,
     input PS2_DATA,
+    input SW,
     output [6:0]SEG,
     output [7:0]AN,
     output DP,
-    output UART_TXD
+    output AUD_PWM
     );
     
     reg CLK50MHZ=0;    
     wire [31:0]keycode;
+    wire clk;
     
     always @(posedge(CLK100MHZ))begin
         CLK50MHZ<=~CLK50MHZ;
@@ -54,5 +56,18 @@ module top(
         .an(AN[7:0]),
         .dp(DP) 
     );
- 
+    
+    Sine_Gen sin (
+        .clk (clk),
+        .reset (SW),
+        .sig_out (AUD_PWM)
+    );
+    
+    O4_ClkDiv CD (
+        .note (keycode[7:0]),
+        .clk_in (CLK100MHZ),
+        .reset (SW),
+        .clk_out (clk)
+    );
+    
 endmodule

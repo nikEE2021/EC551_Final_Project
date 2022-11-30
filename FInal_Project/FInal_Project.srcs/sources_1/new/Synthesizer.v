@@ -39,14 +39,14 @@ module Synthesizer(
     
     always @(posedge longClk)begin
         case(note)
-            3'b000: inCount <= 20'b101110101010000101; //C4
-            3'b001: inCount <= 20'b101001100100011001; //D4
-            3'b010: inCount <= 20'b100101000010000101; //E4
-            3'b011: inCount <= 20'b100010111101000100; //F4
-            3'b100: inCount <= 20'b11111001000111110; //G4
-            3'b101: inCount <= 20'b11011101111100100; //A4
-            3'b110: inCount <= 20'b11000101101110110; //B4
-            3'b111: inCount <= 20'b10111010101000100; //C5
+            3'b000: inCount <= 191109; //C4
+            3'b001: inCount <= 170265; //D4
+            3'b010: inCount <= 151685; //E4
+            3'b011: inCount <= 143172; //F4
+            3'b100: inCount <= 127550; //G4
+            3'b101: inCount <= 113636; //A4
+            3'b110: inCount <= 101238; //B4
+            3'b111: inCount <= 95556; //C5
         endcase
         if(note == 3'b111) begin
             addsub = 0; //Start Counting Down

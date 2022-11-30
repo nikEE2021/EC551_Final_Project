@@ -21,7 +21,7 @@
 
 
 module O4_ClkDiv(
-    input [3:0] note,
+    input [7:0] note,
     input clk_in,
     input reset,
     output reg clk_out
@@ -32,13 +32,14 @@ module O4_ClkDiv(
     
     always @ (note) begin
         case (note)
-            28: cmax <= 444;
+            28: cmax <= 444; // 100MHZ / 256 / 440 / 2
+            50: cmax <= 395; // 100MHZ / 256 / 493.88 / 2
             default: cmax <= 0;
         endcase
     end
     
     always @ (posedge clk_in or posedge reset) begin
-        if (reset)
+        if (reset) begin
             clk_out <= 0;
             count <= 0;
         end else begin
