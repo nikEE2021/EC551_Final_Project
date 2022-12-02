@@ -20,7 +20,7 @@ module vga(
 	 reg [7:0] init_h;
 	 reg [7:0] init_v;
 	 wire init_en;
-	 localparam init_steps = 4;
+	 localparam init_steps = 36;
 
     reg  [7:0]  note;
 	reg  disp_counter;
@@ -120,29 +120,194 @@ module vga(
 
 	 always @(posedge clk) begin
 	 	case (init)
-	 		0: begin
+	 	    0: begin
+                term_w_en <= 1;
+                init_h <= 0;
+                init_v <= 0;
+                init_char <= `CHAR_T;
+            end
+            1: begin
+                term_w_en <= 1;
+                init_h <= 1;
+                init_v <= 0;
+                init_char <= `CHAR_W;
+            end
+            2: begin
+                term_w_en <= 1;
+                init_h <= 2;
+                init_v <= 0;
+                init_char <= `CHAR_I;
+            end
+            3: begin
+                term_w_en <= 1;
+                init_h <= 3;
+                init_v <= 0;
+                init_char <= `CHAR_N;
+            end
+            4: begin
+                term_w_en <= 1;
+                init_h <= 4;
+                init_v <= 0;
+                init_char <= `CHAR_K;
+            end
+            5: begin
+                term_w_en <= 1;
+                init_h <= 5;
+                init_v <= 0;
+                init_char <= `CHAR_L;
+            end
+            6: begin
+                term_w_en <= 1;
+                init_h <= 6;
+                init_v <= 0;
+                init_char <= `CHAR_E;
+            end
+            7: begin
+                term_w_en <= 1;
+                init_h <= 8;
+                init_v <= 0;
+                init_char <= `CHAR_L;
+            end
+            8: begin
+                term_w_en <= 1;
+                init_h <= 9;
+                init_v <= 0;
+                init_char <= `CHAR_I;
+            end
+            9: begin
+                term_w_en <= 1;
+                init_h <= 10;
+                init_v <= 0;
+                init_char <= `CHAR_T;
+            end
+            10: begin
+                term_w_en <= 1;
+                init_h <= 11;
+                init_v <= 0;
+                init_char <= `CHAR_T;
+            end
+            11: begin
+                term_w_en <= 1;
+                init_h <= 12;
+                init_v <= 0;
+                init_char <= `CHAR_L;
+            end
+            12: begin
+                term_w_en <= 1;
+                init_h <= 13;
+                init_v <= 0;
+                init_char <= `CHAR_E;
+            end
+            13: begin
+                term_w_en <= 1;
+                init_h <= 15;
+                init_v <= 0;
+                init_char <= `CHAR_S;
+            end
+            14: begin
+                term_w_en <= 1;
+                init_h <= 16;
+                init_v <= 0;
+                init_char <= `CHAR_T;
+            end
+            15: begin
+                term_w_en <= 1;
+                init_h <= 17;
+                init_v <= 0;
+                init_char <= `CHAR_A;
+            end
+            16: begin
+                term_w_en <= 1;
+                init_h <= 18;
+                init_v <= 0;
+                init_char <= `CHAR_R;
+            end
+            17: begin				// 1
+                init_h <= 21;
+                init_v <= 0;
+                init_char <= `CHAR_A;
+            end
+            18: begin				// 1
+                init_h <= 22;
+                init_v <= 0;
+            end
+            19: begin				// 5
+                init_h <= 23;
+                init_v <= 0;
+                init_char <= `CHAR_G;
+            end
+            20: begin				// 5
+                init_h <= 24;
+                init_v <= 0;
+            end
+            21: begin				// 6
+                init_h <= 25;
+                init_v <= 0;
+                init_char <= `CHAR_H;
+            end
+            22: begin				// 6
+                init_h <= 26;
+                init_v <= 0;
+            end
+            23: begin				// 5
+                init_h <= 27;
+                init_v <= 0;
+                init_char <= `CHAR_G;
+            end
+            24: begin				// 4
+                init_h <= 29;
+                init_v <= 0;
+                init_char <= `CHAR_F;
+            end
+            25: begin				// 4
+                init_h <= 30;
+                init_v <= 0;
+            end
+            26: begin				// 3
+                init_h <= 31;
+                init_v <= 0;
+                init_char <= `CHAR_D;
+            end
+            27: begin				// 3
+                init_h <= 32;
+                init_v <= 0;
+            end
+            28: begin				// 2
+                init_h <= 33;
+                init_v <= 0;
+                init_char <= `CHAR_S;
+            end
+            29: begin				// 2
+                init_h <= 34;
+                init_v <= 0;
+            end
+            30: begin				// 1
+                init_h <= 35;
+                init_v <= 0;
+                init_char <= `CHAR_A;
+            end
+            
+            
+	 		31: begin
 	 			term_w_en <= 1;
 	 			init_h <= 30;
 	 			init_v <= 25;
 	 			init_char <= `CHAR_N;
 	 		end
-	 		1: begin
+	 		32: begin
 	 			init_h <= 31; 
 	 			init_v <= 25; 
 	 			init_char <= `CHAR_O;
 	 		end
-	 		2: begin
+	 		33: begin
 	 			init_h <= 32; 
 	 			init_v <= 25; 
 	 			init_char <= `CHAR_T;
 	 		end
-	 		3: begin
+	 		34, 35: begin
 	 			init_h <= 33; 
 	 			init_v <= 25; 
 	 			init_char <= `CHAR_E;
-	 		end
-	 		default: begin
-	 		    term_w_en <= 0;
 	 		end
 	 	endcase
 	 end
