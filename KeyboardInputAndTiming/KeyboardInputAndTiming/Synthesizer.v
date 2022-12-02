@@ -105,5 +105,5 @@ module Synthesizer(
     ANoteClkDivider ANCD1(.clk(clk_int),.inCount(inCount),.speaker(speaker)); //Uncomment me for Keyboard Loop
     //ANoteClkDivider ANCD1(.clk(clk),.inCount((playSound)?20'b101110101010000101:0),.speaker(speaker)); //Uncomment me for Note Duration
     
-    NoteDurationClkDivider NDCD(.clk(clk),.duration(2'b0),.playSound(playSound)); //Controls Note BPM and Duration
+    //NoteDurationClkDivider NDCD(.clk(clk),.duration(2'b0),.playSound(playSound)); //Controls Note BPM and Duration
 endmodule

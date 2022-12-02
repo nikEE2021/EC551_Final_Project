@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1669849825">
   <File Type="PA-TCL" Name="Synthesizer.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="Synthesizer_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="Synthesizer_reports.tcl"/>
   <File Type="RDS-RDS" Name="Synthesizer.vds"/>
   <File Type="RDS-UTIL" Name="Synthesizer_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="Synthesizer_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="Synthesizer.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="Synthesizer_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="Synthesizer_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/../KeyboardInputAndTiming/KeyboardInputAndTiming/ANoteClkDivider.v">

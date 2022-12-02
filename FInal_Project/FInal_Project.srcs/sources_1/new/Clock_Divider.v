@@ -21,7 +21,7 @@
 
 
 module Clock_Divider
-    #(parameter DIV=16, WIDTH = 4)
+    #(parameter DIV = 16, WIDTH = 4)
     (
     input clk_in,
     input reset,
