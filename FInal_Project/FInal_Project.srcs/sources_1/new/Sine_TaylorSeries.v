@@ -65,7 +65,7 @@ module Sine_TaylorSeries
         .clk_out (clk_256)
     );
     
-    always @ (posedge clk_256 or reset) begin
+    always @ (posedge clk_256 or posedge reset) begin
         if (reset) begin
             count <= 0;
             out <= 0;
@@ -73,7 +73,7 @@ module Sine_TaylorSeries
         end else begin
             if (count == MAX_COUNT) begin
                 count <= 0;
-                out <= 0;
+                out <= RANGE / 2;
                 neg <= ~neg;
             end else begin
                 count <= count + 1;

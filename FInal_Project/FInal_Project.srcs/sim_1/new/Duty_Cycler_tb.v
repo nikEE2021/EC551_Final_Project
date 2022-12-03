@@ -22,11 +22,11 @@
 
 module Duty_Cycler_tb;
     
-    reg [3:0] dc;
+    reg [7:0] dc;
     reg clk, reset;
     wire sig_out;
     
-    Duty_Cycler DuCy (
+    Duty_Cycler #(.ZOOM(8), .COUNT(256)) DuCy (
         .dc (dc),
         .clk (clk),
         .reset (reset),
@@ -36,13 +36,13 @@ module Duty_Cycler_tb;
     initial begin
         clk = 0;
         reset = 1;
-        dc = 7;
+        dc = 127;
         #10 reset = 0;
-        #160 dc = 11;
+        #260 dc = 63;
     end
     
     always begin
-        #5 clk = ~clk;
+        #1 clk = ~clk;
     end
     
 endmodule

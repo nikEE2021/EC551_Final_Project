@@ -28,7 +28,13 @@ module top(
     input PS2_CLK,
     input PS2_DATA,
     input SW,
-    output [6:0]SEG,
+    output CA,
+    output CB,
+    output CC,
+    output CD,
+    output CE,
+    output CF,
+    output CG,
     output [7:0]AN,
     output DP,
     output AUD_PWM
@@ -36,16 +42,20 @@ module top(
     
     reg CLK50MHZ=0;    
     wire [31:0]keycode;
+    wire [6:0]SEG;
     wire clk;
     reg C4_en, D4_en, E4_en, F4_en,
         G4_en, A4_en, B4_en, C5_en;
-    reg [7:0] C4_out, D4_out, E4_out, F4_out,
+    wire [7:0] C4_out, D4_out, E4_out, F4_out,
         G4_out, A4_out, B4_out, C5_out;
     wire [7:0] out;
     
     always @(posedge(CLK100MHZ))begin
         CLK50MHZ<=~CLK50MHZ;
     end
+    
+    assign clk = CLK100MHZ;
+    assign {CG, CF, CE, CD, CC, CB, CA} = SEG;
     
     PS2Receiver keyboard (
         .clk(CLK50MHZ),
@@ -87,31 +97,31 @@ module top(
         end
     end
     
-    Sine_TaylorSeries #(.MAX_COUNT()) C4 (
+    Sine_TaylorSeries #(.MAX_COUNT(747)) C4 (
         .clk (clk),
         .reset (C4_en),
         .out (C4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT()) D4 (
+    Sine_TaylorSeries #(.MAX_COUNT(665)) D4 (
         .clk (clk),
         .reset (D4_en),
         .out (D4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT()) E4 (
+    Sine_TaylorSeries #(.MAX_COUNT(593)) E4 (
         .clk (clk),
         .reset (E4_en),
         .out (E4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT()) F4 (
+    Sine_TaylorSeries #(.MAX_COUNT(559)) F4 (
         .clk (clk),
         .reset (F4_en),
         .out (F4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT()) G4 (
+    Sine_TaylorSeries #(.MAX_COUNT(498)) G4 (
         .clk (clk),
         .reset (G4_en),
         .out (G4_out)
@@ -123,13 +133,13 @@ module top(
         .out (A4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT()) B4 (
+    Sine_TaylorSeries #(.MAX_COUNT(395)) B4 (
         .clk (clk),
         .reset (B4_en),
         .out (B4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT()) C5 (
+    Sine_TaylorSeries #(.MAX_COUNT(373)) C5 (
         .clk (clk),
         .reset (C5_en),
         .out (C5_out)
