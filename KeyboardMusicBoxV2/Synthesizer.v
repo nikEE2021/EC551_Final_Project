@@ -13,9 +13,7 @@ module Synthesizer(
     //output [2:0] Count, counter,
     output [6:0] seg,
     output[7:0] an,
-    output dp,
-    output [5:0] memLoc,
-    output [4:0] notecase
+    output dp
     );
     wire longClk, kclk, playDuration;
     wire [1:0] duration;
@@ -86,7 +84,7 @@ module Synthesizer(
         end 
     end
     
-    MusicBoxMemory mbm(.song1(song1),.song2(song2),.song3(song3),.song4(song4),.playSound(playSound),.note(musicBoxNote),.duration(duration),.start(start),.memLoc(memLoc),.notecase(notecase));
+    MusicBoxMemory mbm(.song1(song1),.song2(song2),.song3(song3),.song4(song4),.playSound(playSound),.note(musicBoxNote),.duration(duration),.start(start));
     
     //assign duration = (s1)?3'b000:(s2)?3'b001:(s3)?3'b010:(s4)?3'b011:3'b100;
     //assign musicBoxNote = 20'b101110101010000101;
