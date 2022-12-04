@@ -7,15 +7,13 @@ module Synthesizer(
     input PS2Clk,
     input PS2Data,
     input musicBox,
-    input song1, song2, song3, song4,
+    input song1, song2, song3, song4, stopSong,
     output speaker,
     output playSound,
     //output [2:0] Count, counter,
     output [6:0] seg,
     output[7:0] an,
-    output dp,
-    output [5:0] memLoc,
-    output [4:0] notecase
+    output dp
     );
     wire longClk, kclk, playDuration;
     wire [1:0] duration;
@@ -42,8 +40,7 @@ module Synthesizer(
         if(KeyboardOut[15:8] != 8'hF0) begin
             case(KeyboardOut[7:0])
          
-
-	            8'h15: keyboardNote <= 20'b01011101001011101111; //C3
+	        8'h15: keyboardNote <= 20'b01011101001011101111; //C3
                 8'h1D: keyboardNote <= 20'b01010011000010101000; //D3
                 8'h24: keyboardNote <= 20'b01001001111110110110; //E3
                 8'h2D: keyboardNote <= 20'b01000101110000010010; //F3
@@ -77,8 +74,8 @@ module Synthesizer(
         end       
     end
     
-    always @(song1 or song2 or song3 or song4) begin
-        if(song1 || song2 || song3 || song4) begin
+    always @(song1 or song2 or song3 or song4 or stopSong) begin
+        if(song1 || song2 || song3 || song4 || stopSong) begin
             start = 1;
         end
         else begin
@@ -86,16 +83,12 @@ module Synthesizer(
         end 
     end
     
-    MusicBoxMemory mbm(.song1(song1),.song2(song2),.song3(song3),.song4(song4),.playSound(playSound),.note(musicBoxNote),.duration(duration),.start(start),.memLoc(memLoc),.notecase(notecase));
-    
-    //assign duration = (s1)?3'b000:(s2)?3'b001:(s3)?3'b010:(s4)?3'b011:3'b100;
-    //assign musicBoxNote = 20'b101110101010000101;
-    
+    MusicBoxMemory mbm(.song1(song1),.song2(song2),.song3(song3),.song4(song4),.stopSong(stopSong),.playSound(playSound),.note(musicBoxNote),.duration(duration),.start(start));
+
     assign inCount = (musicBox)?musicBoxNote:keyboardNote;
     
     assign playSound = (musicBox)?playDuration:1;
     
-    //ANoteClkDivider ANCD1(.clk(clk),.inCount(inCount),.speaker(speaker)); //Uncomment me for Keyboard Loop
     ANoteClkDivider ANCD1(.clk(clk),.inCount((playSound)?inCount:0),.speaker(speaker)); //Uncomment me for Note Duration
     
     NoteDurationClkDivider NDCD(.clk(clk),.duration(duration),.playSound(playDuration),.inCount(Count),.counter(counter)); //Controls Note BPM and Duration
