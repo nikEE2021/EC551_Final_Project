@@ -441,7 +441,7 @@
 
 
 module MusicBoxMemory(
-    input song1, song2, song3, song4,
+    input song1, song2, song3, song4, stopSong,
     input playSound,
     output reg [19:0] note,
     output reg [1:0] duration,
@@ -708,6 +708,9 @@ module MusicBoxMemory(
             end
             if(song4) begin //Old MacDonald
                 memLoc <= 8'b10011001;//153
+            end
+            if(stopSong) begin
+                memLoc <= 8'b0;
             end           
         end
         else begin
