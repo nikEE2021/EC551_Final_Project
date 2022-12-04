@@ -1,7 +1,0 @@
-Running: xsim.dir/Duty_Cycler_tb_behav/xsimk.exe -simmode gui -wdb Duty_Cycler_tb_behav.wdb -simrunnum 0 -socket 63960
-Design successfully loaded
-Design Loading Memory Usage: 6692 KB (Peak: 6692 KB)
-Design Loading CPU Usage: 140 ms
-Simulation completed
-Simulation Memory Usage: 7328 KB (Peak: 7328 KB)
-Simulation CPU Usage: 140 ms
