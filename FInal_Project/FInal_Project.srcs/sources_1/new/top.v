@@ -46,9 +46,9 @@ module top(
     wire clk;
     reg C4_en, D4_en, E4_en, F4_en,
         G4_en, A4_en, B4_en, C5_en;
-    wire [7:0] C4_out, D4_out, E4_out, F4_out,
+    wire [3:0] C4_out, D4_out, E4_out, F4_out,
         G4_out, A4_out, B4_out, C5_out;
-    wire [7:0] out;
+    wire [3:0] out;
     
     always @(posedge(CLK100MHZ))begin
         CLK50MHZ<=~CLK50MHZ;
@@ -97,49 +97,49 @@ module top(
         end
     end
     
-    Sine_TaylorSeries #(.MAX_COUNT(747)) C4 (
+    Sine_TaylorSeries #(.MAX_COUNT(11944)) C4 (
         .clk (clk),
         .reset (C4_en),
         .out (C4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT(665)) D4 (
+    Sine_TaylorSeries #(.MAX_COUNT(10642)) D4 (
         .clk (clk),
         .reset (D4_en),
         .out (D4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT(593)) E4 (
+    Sine_TaylorSeries #(.MAX_COUNT(9480)) E4 (
         .clk (clk),
         .reset (E4_en),
         .out (E4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT(559)) F4 (
+    Sine_TaylorSeries #(.MAX_COUNT(8948)) F4 (
         .clk (clk),
         .reset (F4_en),
         .out (F4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT(498)) G4 (
+    Sine_TaylorSeries #(.MAX_COUNT(7972)) G4 (
         .clk (clk),
         .reset (G4_en),
         .out (G4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT(444)) A4 (
+    Sine_TaylorSeries #(.MAX_COUNT(7102)) A4 (
         .clk (clk),
         .reset (A4_en),
         .out (A4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT(395)) B4 (
+    Sine_TaylorSeries #(.MAX_COUNT(6327)) B4 (
         .clk (clk),
         .reset (B4_en),
         .out (B4_out)
     );
     
-    Sine_TaylorSeries #(.MAX_COUNT(373)) C5 (
+    Sine_TaylorSeries #(.MAX_COUNT(5972)) C5 (
         .clk (clk),
         .reset (C5_en),
         .out (C5_out)
@@ -148,24 +148,11 @@ module top(
     assign out = C4_out + D4_out + E4_out + F4_out +
         G4_out + A4_out + B4_out + C5_out;
     
-    Duty_Cycler #(.ZOOM(8), .COUNT(256)) DC (
+    Duty_Cycler #(.ZOOM(4), .COUNT(16)) DC (
         .dc (out),
         .clk (clk),
         .reset (SW),
         .sig_out (AUD_PWM)
     );
-    
-//    Sine_Gen sin (
-//        .clk (clk),
-//        .reset (SW),
-//        .sig_out (AUD_PWM)
-//    );
-    
-//    O4_ClkDiv CD (
-//        .note (keycode[7:0]),
-//        .clk_in (CLK100MHZ),
-//        .reset (SW),
-//        .clk_out (clk)
-//    );
     
 endmodule

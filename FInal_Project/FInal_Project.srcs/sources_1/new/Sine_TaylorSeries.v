@@ -25,16 +25,18 @@ module Sine_TaylorSeries
     (
     input clk,
     input reset,
-    output reg [7:0] out
+    output reg [3:0] out
     );
     
+    // constants in Taylor Series equation
     localparam [34:0] CN0 = 35'h30989B320, CN1 = 35'h5000742C0, CN2 = 35'h2782D61C0, CN3 = 35'h94ACE180,
         CD = 35'hF765FED0;
-    localparam RANGE = 63;
+    // Taylor Series output is [0, RANGE]
+    localparam RANGE = 5;
     
     
-    wire clk_256;
-    reg [9:0] count;
+    wire clk_div;
+    reg [13:0] count;
     reg neg;
     
     wire [29:0] c3;
@@ -48,24 +50,30 @@ module Sine_TaylorSeries
     wire [101:0] denom;
     wire [102:0] denom2;
     
+    
+    // exponents of count
     assign c3 = count * count * count;
     assign c5 = count * count * count * count * count;
     assign c7 = count * count * count * count * count * count * count;
     
+    // exponents of MAX_COUNT
     assign m2 = MAX_COUNT * MAX_COUNT;
     assign m4 = MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT;
     assign m6 = MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT;
     
+    // denominator of Taylor Series equation
     assign denom = CD * MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT * MAX_COUNT;
     assign denom2 = denom << 1;
     
-    Clock_Divider #(.DIV(256), .WIDTH(8)) ClkDiv (
+    // divide clock so Taylor Series output can determine duty cycle
+    Clock_Divider #(.DIV(16), .WIDTH(4)) ClkDiv (
         .clk_in (clk),
         .reset (reset),
-        .clk_out (clk_256)
+        .clk_out (clk_div)
     );
     
-    always @ (posedge clk_256 or posedge reset) begin
+    // compute Taylor Series every long clock cycle
+    always @ (posedge clk_div or posedge reset) begin
         if (reset) begin
             count <= 0;
             out <= 0;
@@ -73,7 +81,7 @@ module Sine_TaylorSeries
         end else begin
             if (count == MAX_COUNT) begin
                 count <= 0;
-                out <= RANGE / 2;
+                out <= RANGE >> 1;
                 neg <= ~neg;
             end else begin
                 count <= count + 1;
