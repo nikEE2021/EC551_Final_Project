@@ -109,8 +109,6 @@ module vga(
     
    always @(posedge clk) begin
        case (music_box_mode)
-//           0: mode <= 8'h78;
-//           1: mode <= 8'h87;
            0: mode <= 8'h20;
            1: mode <= 8'h21;
        endcase
