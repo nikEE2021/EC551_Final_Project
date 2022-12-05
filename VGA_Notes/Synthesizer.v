@@ -24,6 +24,7 @@ module Synthesizer(
     input clk,
     input PS2Clk,
     input PS2Data,
+    input music_box_mode,
     output speaker,
 //    output playSound,
 //    output reg [2:0] note,
@@ -44,14 +45,26 @@ module Synthesizer(
     
     wire [10:0] vga_h_counter;
     wire [10:0] vga_v_counter;
-    wire vga_pixel;
+//    wire vga_pixel;
     wire vga_blank;
+    wire red_color;
     
-    assign vga_r = (vga_pixel) ? 4'hf : 4'h0;
-    assign vga_g = (vga_pixel) ? 4'hf : 4'h0;
-    assign vga_b = (vga_pixel) ? 4'hf : 4'h0;
+//    assign vga_r = (vga_pixel) ? 4'hf : 4'h0;
+//    assign vga_g = (vga_pixel) ? 4'hf : 4'h0;
+//    assign vga_b = (vga_pixel) ? 4'hf : 4'h0;
         
-    vga vga_display(.clk(clk),.rst(rst),.key_stroke(KeyboardOut[7:0]),.vga_h_ctr(vga_h_counter),.vga_v_ctr(vga_v_counter),.vga_pixel_on(vga_pixel));
+//    vga vga_display(.clk(clk),.rst(rst),.key_stroke(KeyboardOut[7:0]),.vga_h_ctr(vga_h_counter),.vga_v_ctr(vga_v_counter),.vga_pixel_on(vga_pixel),.red(red_color));
+    
+    vga vga_display(.clk(clk),
+                    .rst(rst),
+                    .key_stroke(KeyboardOut[7:0]),
+//                    .music_box_mode(music_box_mode),
+                    .vga_h_ctr(vga_h_counter),
+                    .vga_v_ctr(vga_v_counter),
+                    .vga_r(vga_r),
+                    .vga_g(vga_g),
+                    .vga_b(vga_b)
+                    );
     
     vga_controller_640_60 vga_ctrl(
         .HS(vga_hsync),
