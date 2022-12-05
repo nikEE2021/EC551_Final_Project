@@ -13,7 +13,7 @@ module vga(
     output [3:0] vga_g,
     output [3:0] vga_b,
     
-    input [7:0] key_stroke,
+    input [31:0] key_stroke,
 
 	input clk,
 	input rst
@@ -24,12 +24,11 @@ module vga(
 	 reg [7:0] init_h;
 	 reg [7:0] init_v;
 	 wire init_en;
-	 localparam init_steps = 159;
+	 localparam init_steps = 165;
     
-//    reg  [7:0]  mode;
+    reg  [7:0]  mode;
     reg  [7:0]  note;
-//	reg  [1:0] disp_counter;
-	reg  disp_counter;
+	reg  [1:0] disp_counter;
 	reg  [3:0] display_hex;
 	reg  [5:0] display_char;
 	wire [7:0] display_h;
@@ -63,44 +62,64 @@ module vga(
      assign term_h    = init_en ? init_h    : display_h;
 	 assign term_v    = init_en ? init_v    : display_v;
 	 assign term_char = init_en ? init_char : display_char;
-	 
-	assign display_h = disp_counter + 35;
-	assign display_v = 25;
-	
-//	assign display_h = (disp_counter == 0) || (disp_counter == 1) ? disp_counter + 35 : 76;
-//	assign display_v = (disp_counter == 0) || (disp_counter == 1) ? 25 : disp_counter - 2;
+
+     assign display_h = disp_counter[0] + 35;
+     assign display_v = disp_counter[1] * 3 + 25;
 	
 	assign vga_r = (vga_pixel_on) ? 4'h0 : 4'h0;
     assign vga_g = (vga_pixel_on) ? 4'hf : 4'h0;
     assign vga_b = (vga_pixel_on) ? 4'h0 : 4'h0;
     
 	always @(posedge clk) begin
-	   case(key_stroke[7:0])    
-	       8'h1C: note <= 8'hC4; //C4
-	       8'h1B: note <= 8'hD4; //D4
-	       8'h23: note <= 8'hE4; //E4
-	       8'h2B: note <= 8'hF4; //F4
-	       8'h34: note <= 8'h94; //G4
-	       8'h33: note <= 8'hA4; //A4
-	       8'h3B: note <= 8'hB4; //B4
-	       8'h42: note <= 8'hC5; //C5
-	       default: note <= 8'h00;
-	   endcase      
+        if(key_stroke[15:8] != 8'hF0) begin
+    	   case(key_stroke[7:0])
+//                 8'h15: note <= 8'hC3; //C3
+//                 8'h1D: note <= 8'hD3; //D3
+//                 8'h24: note <= 8'hE3; //E3
+//                 8'h2D: note <= 8'hF3; //F3
+//                 8'h2C: note <= 8'h93; //G3
+//                 8'h35: note <= 8'hA3; //A3
+//                 8'h3C: note <= 8'hB3; //B3
+//                 8'h43: note <= 8'hC4; //C4
+
+                8'h1C: note <= 8'hC4; //C4
+                8'h1B: note <= 8'hD4; //D4
+                8'h23: note <= 8'hE4; //E4
+                8'h2B: note <= 8'hF4; //F4
+                8'h34: note <= 8'h94; //G4
+                8'h33: note <= 8'hA4; //A4
+                8'h3B: note <= 8'hB4; //B4
+                8'h42: note <= 8'hC5; //C5
+
+//                 8'h1A: note <= 8'hC5; //C5
+//                 8'h22: note <= 8'hD5; //D5
+//                 8'h21: note <= 8'hE5; //E5
+//                 8'h2A: note <= 8'hF5; //F5
+//                 8'h32: note <= 8'h95; //G5
+//                 8'h31: note <= 8'hA5; //A5
+//                 8'h3A: note <= 8'hB5; //B5
+//                 8'h41: note <= 8'hC6; //C6
+    	       default: note <= 8'h00;
+    	   endcase
+        end
+        else begin
+            note <= 8'h00;
+        end        
    	end
     
-//    always @(posedge clk) begin
-//        case (music_box_mode)
-//            0: mode <= 8'h78;
-//            1: mode <= 8'h87;
-//        endcase
-//    end
+   always @(posedge clk) begin
+       case (music_box_mode)
+           0: mode <= 8'h20;
+           1: mode <= 8'h21;
+       endcase
+   end
     
 	always @(*) begin
 		case (disp_counter)
 			0: display_hex = note[7:4];
 			1: display_hex = note[3:0];
-//            2: display_hex = mode[7:4];
-//            3: display_hex = mode[3:0];
+            2: display_hex = mode[7:4];
+            3: display_hex = mode[3:0];
 			default: display_hex = 4'h0;
 		endcase
 	end
@@ -109,7 +128,7 @@ module vga(
 		case(display_hex)
 			 0: display_char = `CHAR_0;
 			 1: display_char = `CHAR_1;
-			 2: display_char = `CHAR_2;
+			 2: display_char = `CHAR_M;
 			 3: display_char = `CHAR_3;
 			 4: display_char = `CHAR_4;
 			 5: display_char = `CHAR_5;
@@ -137,7 +156,7 @@ module vga(
 	always @(posedge clk) begin
 		if (rst) begin
 			disp_counter <= 0;
-		end else if (disp_counter >= 1) begin
+		end else if (disp_counter >= 3) begin
 			disp_counter <= 0;
 		end else begin
 			disp_counter <= disp_counter + 1;
@@ -807,148 +826,176 @@ module vga(
 	 			init_v <= 25; 
 	 			init_char <= `CHAR_E;
 	 		end
-            
             130: begin
+                init_h <= 30; 
+                init_v <= 28; 
+                init_char <= `CHAR_M;
+            end
+            131: begin
+                init_h <= 31; 
+                init_v <= 28; 
+                init_char <= `CHAR_O;
+            end
+            132: begin
+                init_h <= 32; 
+                init_v <= 28; 
+                init_char <= `CHAR_D;
+            end
+            133: begin
+                init_h <= 33; 
+                init_v <= 28; 
+                init_char <= `CHAR_E;
+            end
+            134: begin
                 init_h <= 59; 
                 init_v <= 0; 
                 init_char <= `CHAR_U;
             end
-            131: begin
+            135: begin
                 init_h <= 60; 
                 init_v <= 0; 
                 init_char <= `CHAR_S;
             end
-            132: begin
+            136: begin
                 init_h <= 61; 
                 init_v <= 0; 
                 init_char <= `CHAR_E;
             end
-            133: begin
+            137: begin
                 init_h <= 62; 
                 init_v <= 0; 
                 init_char <= `CHAR_R;
             end
-            134: begin
+            138: begin
                 init_h <= 63; 
                 init_v <= 0; 
                 init_char <= `CHAR_SPACE;
             end
-            135: begin
+            139: begin
                 init_h <= 64; 
                 init_v <= 0; 
                 init_char <= `CHAR_I;
             end
-            136: begin
+            140: begin
                 init_h <= 65; 
                 init_v <= 0; 
                 init_char <= `CHAR_N;
             end
-            137: begin
+            141: begin
                 init_h <= 66; 
                 init_v <= 0; 
                 init_char <= `CHAR_P;
             end
-            138: begin
+            142: begin
                 init_h <= 67; 
                 init_v <= 0; 
                 init_char <= `CHAR_U;
             end
-            139: begin
+            143: begin
                 init_h <= 68; 
                 init_v <= 0; 
                 init_char <= `CHAR_T;
             end
-            140: begin
+            144: begin
                 init_h <= 70; 
                 init_v <= 0; 
                 init_char <= `CHAR_M;
             end
-            141: begin
+            145: begin
                 init_h <= 71; 
                 init_v <= 0; 
                 init_char <= `CHAR_O;
             end
-            142: begin
+            146: begin
                 init_h <= 72; 
                 init_v <= 0; 
                 init_char <= `CHAR_D;
             end
-            143: begin
+            147: begin
                 init_h <= 73; 
                 init_v <= 0; 
                 init_char <= `CHAR_E;
-            end
-            
-            144: begin
+            end        
+            148: begin
                 init_h <= 60; 
                 init_v <= 1; 
                 init_char <= `CHAR_M;
             end
-            145: begin
+            149: begin
                 init_h <= 61; 
                 init_v <= 1; 
                 init_char <= `CHAR_U;
             end
-            146: begin
+            150: begin
                 init_h <= 62; 
                 init_v <= 1; 
                 init_char <= `CHAR_S;
             end
-            147: begin
+            151: begin
                 init_h <= 63; 
                 init_v <= 1; 
                 init_char <= `CHAR_I;
             end
-            148: begin
+            152: begin
                 init_h <= 64; 
                 init_v <= 1; 
                 init_char <= `CHAR_C;
             end
-            149: begin
+            153: begin
                 init_h <= 66; 
                 init_v <= 1; 
                 init_char <= `CHAR_B;
             end
-            150: begin
+            154: begin
                 init_h <= 67; 
                 init_v <= 1; 
                 init_char <= `CHAR_O;
             end
-            151: begin
+            155: begin
                 init_h <= 68; 
                 init_v <= 1; 
                 init_char <= `CHAR_X;
             end
-            152: begin
+            156: begin
                 init_h <= 70; 
                 init_v <= 1; 
                 init_char <= `CHAR_M;
             end
-            153: begin
+            157: begin
                 init_h <= 71; 
                 init_v <= 1; 
                 init_char <= `CHAR_O;
             end
-            154: begin
+            158: begin
                 init_h <= 72; 
                 init_v <= 1; 
                 init_char <= `CHAR_D;
             end
-            155: begin
+            159: begin
                 init_h <= 73; 
                 init_v <= 1; 
                 init_char <= `CHAR_E;
             end
-            156: begin
-                init_h <= 76; 
-                init_v <= 0; 
-                init_char <= music_box_mode ? `CHAR_Y : `CHAR_N;
-            end
-            157, 158: begin
-                init_h <= 76; 
-                init_v <= 1; 
-                init_char <= music_box_mode ? `CHAR_N : `CHAR_Y;
-            end
+             160: begin
+                 init_h <= 75; 
+                 init_v <= 0; 
+                 init_char <= `CHAR_M;
+             end
+             161: begin
+                 init_h <= 75; 
+                 init_v <= 1; 
+                 init_char <= `CHAR_M;
+             end
+             162: begin
+                 init_h <= 76; 
+                 init_v <= 0; 
+                 init_char <= `CHAR_0;
+             end
+             163, 164: begin
+                 init_h <= 76; 
+                 init_v <= 1; 
+                 init_char <= `CHAR_1;
+             end
         endcase
 	 end
 endmodule
