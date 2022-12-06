@@ -25,7 +25,7 @@ Three Octaves and four songs (Twinkle Twinkle Little Star, Ode To Joy, Jasmine, 
 #### V3:
 V2 + VGA Integration which displays current note being played, Keyboard/MusicBox Mode, and keys to play the four music box songs
 
-### Synthesizer Music Box Final Use Instructions
+### SynthesizerMusicBox_Final Use Instructions
 #### Keyboard Mode:
 The FPGA will start in Square Wave Keyboard Mode. Press Keys Q-O for C3-C4, A-K for C4 to C5, and Z-, for C5-C6
 
