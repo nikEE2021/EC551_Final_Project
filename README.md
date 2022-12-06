@@ -15,4 +15,12 @@
 ### Final_Project Folder
 This folder contains the code for testing and generating sine waves. The "Sine_Gen" module uses previously calculated values for the sine wave values and the "Sine_TaylorSeries" module generates the sine waves using a Taylor Series. The sine wave outputs get fed into the "Duty_Cycler" module to adjust the duty cycle of the input to the PWM output. The shorter the duty cycle, the lower the output and vice versa, thus the sine wave output stretches the range of the duty cycle.
 
+### KeyboardMusicBox Folders
+#### V1 - One Octave and two songs (Twinkle Twinkle Little Star and Ode To Joy)
+
+#### V2 - Three Octaves and four songs (Twinkle Twinkle Little Star, Ode To Joy, Jasmine, Old MacDonald)
+
+#### V3 - V2 + VGA Integration which displays current note being played, Keyboard/MusicBox Mode, and keys to play the four music box songs
+
+
 ### Demo Link:
