@@ -15,6 +15,9 @@
 ### Final_Project Folder
 This folder contains the code for testing and generating sine waves. The "Sine_Gen" module uses previously calculated values for the sine wave values and the "Sine_TaylorSeries" module generates the sine waves using a Taylor Series. The sine wave outputs get fed into the "Duty_Cycler" module to adjust the duty cycle of the input to the PWM output. The shorter the duty cycle, the lower the output and vice versa, thus the sine wave output stretches the range of the duty cycle.
 
+### VGA_Notes Folder
+This folder contains modules for VGA display. The VGA serves as a user interface that displays music notes when user enter different keystrokes, some music sheet examples and mode indicator.
+
 ### KeyboardMusicBox Folders
 #### V1:
 One Octave and two songs (Twinkle Twinkle Little Star and Ode To Joy)
@@ -29,7 +32,7 @@ V2 + VGA Integration which displays current note being played, Keyboard/MusicBox
 #### Keyboard Mode:
 The FPGA will start in Square Wave Keyboard Mode. Press Keys Q-O for C3-C4, A-K for C4 to C5, and Z-, for C5-C6
 
-To switch to Sine Wave Keyboard Mode for chords flip the SW switch (default L16). In SIne Wave Keyboard Mode, any keys in the C4-C5 range can be pressed seperatly or together to form chords
+To switch to Sine Wave Keyboard Mode for chords flip the SW switch (default L16). In Sine Wave Keyboard Mode, any keys in the C4-C5 range can be pressed seperatly or together to form chords
 
 #### Music Box Mode:
 To enter Music Box Mode, flip the musicBox switch (default J15). In Music Box Mode, you can press any of the four outer buttons on the FPGA to play a select song in memory
