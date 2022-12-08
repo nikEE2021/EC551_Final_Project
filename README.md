@@ -4,8 +4,8 @@
 https://drive.google.com/file/d/1S3SE2koBkpDHM0XWziQEpQ2eJBbI3GJV/view?usp=share_link
 
 ### I/O:
-1. Keyboard Input
-2. Mode Switch
+1. Keyboard input
+2. Mode toggle switch
 3. Speaker output
 4. VGA display
 
