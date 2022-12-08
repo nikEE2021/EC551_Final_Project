@@ -13,13 +13,13 @@ https://drive.google.com/file/d/1S3SE2koBkpDHM0XWziQEpQ2eJBbI3GJV/view?usp=share
 1. Input music notes C3~C6 from the keyboard, which supports square waves and sine waves.
 2. Allow up to three notes entered at the same time to form a chord.
 3. Play four songs stored in the memory.
-4. VGA that shows music sheets and displays the input notes in real time.
+4. VGA that shows several music sheets and displays the input note and system mode in real time.
 
 ### Final_Project Folder
 This folder contains the code for testing and generating sine waves. The "Sine_Gen" module uses previously calculated values for the sine wave values and the "Sine_TaylorSeries" module generates the sine waves using a Taylor Series. The sine wave outputs get fed into the "Duty_Cycler" module to adjust the duty cycle of the input to the PWM output. The shorter the duty cycle, the lower the output and vice versa, thus the sine wave output stretches the range of the duty cycle.
 
 ### VGA_Notes Folder
-This folder contains modules for VGA display. The VGA serves as a real-time user interface that displays music notes when user enter different keystrokes. It provides some music sheet examples to guide users to perform several songs with the synthesizer. Also, it has a mode indicator showing the current mode of the system (USER INPUT MODE or MUSIC BOX MODE).
+This folder contains modules for VGA display. It has a VGA controller provided by the EC551 lab, which generates horizontal and vertical timing signals. The VGA module is connected to a font_terminal, which gets the horizontal and vertical location of the pixel and the encoded character which will be displayed. The address bus is driven into the character memory and the corresponding data is fetched. In the end, the VGA module will output the RGB value based on the desired pixel location. The VGA module is clocked with mode switch input and user keyboard input to refresh the information on the screen in real time.
 
 ### KeyboardMusicBox Folders
 #### V1:
