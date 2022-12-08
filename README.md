@@ -16,7 +16,7 @@
 This folder contains the code for testing and generating sine waves. The "Sine_Gen" module uses previously calculated values for the sine wave values and the "Sine_TaylorSeries" module generates the sine waves using a Taylor Series. The sine wave outputs get fed into the "Duty_Cycler" module to adjust the duty cycle of the input to the PWM output. The shorter the duty cycle, the lower the output and vice versa, thus the sine wave output stretches the range of the duty cycle.
 
 ### VGA_Notes Folder
-This folder contains modules for VGA display. The VGA serves as a user interface that displays music notes when user enter different keystrokes, some music sheet examples and mode indicator.
+This folder contains modules for VGA display. The VGA serves as a real-time user interface that displays music notes when user enter different keystrokes. It provides some music sheet examples to guide users to perform several songs with the synthesizer. Also, it has a mode indicator showing the current mode of the system (USER INPUT MODE or MUSIC BOX MODE).
 
 ### KeyboardMusicBox Folders
 #### V1:
