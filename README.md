@@ -1,5 +1,8 @@
 # EC551_Final_Project -- FPGA Synthesizer + Musix Box
 
+## Full Demo Link:
+https://drive.google.com/file/d/1S3SE2koBkpDHM0XWziQEpQ2eJBbI3GJV/view?usp=share_link
+
 ### I/O:
 1. Keyboard Input
 2. Mode Switch
@@ -46,6 +49,3 @@ To enter Music Box Mode, flip the musicBox switch (default J15). In Music Box Mo
 **Left**: Old MacDonald
 
 To stop a song, press the center button
-
-## Full Demo Link:
-https://drive.google.com/file/d/1S3SE2koBkpDHM0XWziQEpQ2eJBbI3GJV/view?usp=share_link
